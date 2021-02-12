@@ -141,11 +141,11 @@ body {
   width: 60px;
 }
 
-.counter svg:not(.disabled):hover {
+.counter svg:not(.svg-disabled):hover {
   fill: #191847
 }
 
-#minusBtn, #plusBtn {
+.minusBtn, .plusBtn {
   cursor: pointer;
 }
 
@@ -209,6 +209,6 @@ body {
 }
 
 .svg-disabled {
-  fill: #C5CFD6 !important;
-  cursor: not-allowed !important;
+  fill: #C5CFD6;
+  cursor: not-allowed;
 }

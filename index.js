@@ -13,8 +13,6 @@ const selectSticker = {
     const isChecked = classes.some(item => item === 'checked')
     
     isChecked ? this.uncheck(checkbox, label) : this.check(checkbox, label)
-
-    handleSubmit.setButtonEnabledVerifier() 
   },
 
   check(checkbox, label) {
@@ -76,33 +74,35 @@ const counter = {
 
   renderResult() {
     this.counterElement.value = this.stickers
-    handleSubmit.setButtonEnabledVerifier() 
   },
 
   verifyInput(fromEvent) {
     const inputValue = this.counterElement.value
 
-    if(fromEvent) {
+    if (fromEvent) {
       this.stickers = inputValue
 
-      if(this.stickers <= 0) {
+      if (this.stickers <= 0) {
         minusBtn.classList.add('svg-disabled')
       } else {
         minusBtn.classList.remove('svg-disabled')
       }
 
     } else {
-      if(this.stickers <= 0) {
+      if (this.stickers <= 0) {
         minusBtn.classList.add('svg-disabled')
       } else {
         minusBtn.classList.remove('svg-disabled')
       }
     }
     
-    if(isNaN(inputValue) || this.stickers < 0) {
+    if (isNaN(inputValue) || this.stickers < 0) {
         this.addError()
+        minusBtn.classList.add('svg-disabled')
+        plusBtn.classList.add('svg-disabled')
     } else {
       this.removeError()
+      plusBtn.classList.remove('svg-disabled')
     }
   },
 
@@ -117,11 +117,23 @@ const counter = {
 
 const plusBtn = document.querySelector(".plusBtn")
 plusBtn.addEventListener('click', () => {
+
+  const [ ...plusBtnHTMLclasses ] = plusBtn.classList
+  const isDisabled = plusBtnHTMLclasses.includes('svg-disabled')
+
+  if (isDisabled) return
+
   counter.add()
 })
 
 const minusBtn = document.querySelector(".minusBtn")
 minusBtn.addEventListener('click', () => {
+  
+  const [ ...minusBtnHTMLclasses ] = minusBtn.classList
+  const isDisabled = minusBtnHTMLclasses.includes('svg-disabled')
+
+  if (isDisabled) return
+
   counter.remove()
 })
 
@@ -167,7 +179,7 @@ const order = {
     if (checkbox) {
       if (subject.length === 0) {
         handleSubmit.checkboxErrorMessage()
-        handleSubmit.buttonDisabled()
+
         throw new Error('checkbox error')
       }
     }
@@ -175,7 +187,7 @@ const order = {
     if (counter) {
       if (subject === 0) {
         handleSubmit.counterErrorMessage()
-        handleSubmit.buttonDisabled()
+
         throw new Error('counter error')
       }
     }
@@ -185,11 +197,6 @@ const order = {
 const submitBtn = document.querySelector('footer button')
 submitBtn.addEventListener('click', (evt) => {
   evt.preventDefault()
-
-  const [ ...submitButtonHTMLclasses] = submitBtn.classList
-  const isDisabled = submitButtonHTMLclasses.includes('disabled')
-
-  if (isDisabled) return
 
   const messageElement = handleSubmit.messageElement
   const [ ...messageElementHTMLclasses ] = messageElement.classList
@@ -214,30 +221,6 @@ const handleSubmit = {
   messageElement: document.querySelector('.submit-message'),
   messageElementContainer: document.querySelector('footer'),
   button: document.querySelector('footer button'),
-
-  buttonEnabled() {
-    this.button.classList.remove('disabled')
-  },
-
-  buttonDisabled() {
-    this.button.classList.add('disabled')
-  },
-
-  setButtonEnabledVerifier() {
-    let hasSticker
-
-    for(let sticker in selectSticker.stickers) {
-      if (selectSticker.stickers[sticker].isSelected) {
-        hasSticker = true
-      }
-    }
-
-    if (counter.stickers > 0 && hasSticker)  {
-      this.buttonEnabled()
-    } else {
-      this.buttonDisabled()
-    }
-  },
 
   counterErrorMessage() {
     this.clearMessageElementClasses()
