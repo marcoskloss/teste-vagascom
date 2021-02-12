@@ -260,17 +260,6 @@ const handleSubmit = {
 
 }
 
-// const Modal = {
-//   modalElement: document.querySelector('.modal-container'),
-
-//   close() {
-//     this.modalElement.classList.remove('is-active')
-//   },
-
-//   open() {
-//     this.modalElement.classList.add('is-active')
-//   }
-// }
 
 
 
