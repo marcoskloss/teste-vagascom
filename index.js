@@ -166,7 +166,7 @@ const order = {
   validate({ checkbox, counter, subject }) {
     if (checkbox) {
       if (subject.length === 0) {
-        submitMessage.checkboxErrorMessage()
+        handleSubmit.checkboxErrorMessage()
         handleSubmit.buttonDisabled()
         throw new Error('checkbox error')
       }
@@ -174,7 +174,7 @@ const order = {
 
     if (counter) {
       if (subject === 0) {
-        submitMessage.counterErrorMessage()
+        handleSubmit.counterErrorMessage()
         handleSubmit.buttonDisabled()
         throw new Error('counter error')
       }
@@ -186,10 +186,21 @@ const submitBtn = document.querySelector('footer button')
 submitBtn.addEventListener('click', (evt) => {
   evt.preventDefault()
 
+  const [ ...submitButtonHTMLclasses] = submitBtn.classList
+  const isDisabled = submitButtonHTMLclasses.includes('disabled')
+
+  if (isDisabled) return
+
+  const messageElement = handleSubmit.messageElement
+  const [ ...messageElementHTMLclasses ] = messageElement.classList
+  const alreadySubmittedWithSuccess = messageElementHTMLclasses.includes('success-text')
+  
+  if (alreadySubmittedWithSuccess) return
+
   try {
     order.setAmount(counter.stickers)
     order.setStickers(selectSticker.stickers)
-    submitMessage.sucessMessage()
+    handleSubmit.successMessage()
 
     console.log("quantidade\n", order.amount)
     console.log("tipo\n", order.selectedStickers)
@@ -201,6 +212,7 @@ submitBtn.addEventListener('click', (evt) => {
 
 const handleSubmit = {
   messageElement: document.querySelector('.submit-message'),
+  messageElementContainer: document.querySelector('footer'),
   button: document.querySelector('footer button'),
 
   buttonEnabled() {
@@ -233,6 +245,9 @@ const handleSubmit = {
     const errorMessage = 'Escolha ao menos a quantia de 1 sticker!'
     this.messageElement.innerHTML = errorMessage
     this.messageElement.classList.add('error-text')
+    
+    this.messageElementContainer.classList.add('has-message')
+    
     this.messageElement.classList.add('is-active')
   },
 
@@ -242,23 +257,30 @@ const handleSubmit = {
     const errorMessage = 'Escolha ao menos um tipo de sticker!'
     this.messageElement.innerHTML = errorMessage
     this.messageElement.classList.add('error-text')
+
+    this.messageElementContainer.classList.add('has-message')
+    
     this.messageElement.classList.add('is-active')
   },
 
-  sucessMessage() {
+  successMessage() {
     this.clearMessageElementClasses()
 
-    this.messageElement.innerHTML = 'Formulário enviado com sucesso!'
-    this.messageElement.classList.add('sucess-text')
+    this.messageElement.innerHTML = 'Formulário enviado com successo!'
+    this.messageElement.classList.add('success-text')
+
+    this.messageElementContainer.classList.add('has-message')
+  
     this.messageElement.classList.add('is-active')
   },
 
   clearMessageElementClasses() {
     this.messageElement.classList.remove('error-text')
-    this.messageElement.classList.remove('sucess-text')
+    this.messageElement.classList.remove('success-text')
+    this.messageElementContainer.classList.remove('has-message')
   }
-
 }
+
 
 
 
