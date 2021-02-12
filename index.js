@@ -86,16 +86,16 @@ const counter = {
       this.stickers = inputValue
 
       if(this.stickers <= 0) {
-        minusBtn.classList.add('disabled')
+        minusBtn.classList.add('svg-disabled')
       } else {
-        minusBtn.classList.remove('disabled')
+        minusBtn.classList.remove('svg-disabled')
       }
 
     } else {
       if(this.stickers <= 0) {
-        minusBtn.classList.add('disabled')
+        minusBtn.classList.add('svg-disabled')
       } else {
-        minusBtn.classList.remove('disabled')
+        minusBtn.classList.remove('svg-disabled')
       }
     }
     
@@ -115,12 +115,12 @@ const counter = {
   }
 }
 
-const plusBtn = document.querySelector("#plusBtn")
+const plusBtn = document.querySelector(".plusBtn")
 plusBtn.addEventListener('click', () => {
   counter.add()
 })
 
-const minusBtn = document.querySelector("#minusBtn")
+const minusBtn = document.querySelector(".minusBtn")
 minusBtn.addEventListener('click', () => {
   counter.remove()
 })

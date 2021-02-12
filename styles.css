@@ -205,5 +205,10 @@ body {
 }
 .disabled {
   background: #C5CFD6 !important;
-  cursor: not-allowed;
+  cursor: not-allowed !important;
+}
+
+.svg-disabled {
+  fill: #C5CFD6 !important;
+  cursor: not-allowed !important;
 }
